@@ -7,13 +7,23 @@ def main():
     browser = webdriver.Chrome()
     browser.get(url)
 
+    data = []
+
     for i in range(16):
         xPath = f'//*[@id="main"]/div[1]/table/tbody/tr[{i+1}]/td[4]'
         xPathLand = f'//*[@id="main"]/div[1]/table/tbody/tr[{i+1}]/td[1]'
         num = browser.find_element(By.XPATH, xPath).get_attribute("textContent")
         name = browser.find_element(By.XPATH, xPathLand).get_attribute("textContent")
+        data.append([name, num])
 
         print(f"{name} 7 day: {num}")
+
+
+
+    print(data)
+
+    # to stop the browser
+    f = input("ENTER:")
 
 if __name__ == '__main__':
     main()
