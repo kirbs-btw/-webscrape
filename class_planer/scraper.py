@@ -10,6 +10,16 @@ def getData():
 
     return pw, url
 
+def getTableData():
+    """
+    can't get it to work now the website where i'm
+    trying to scrape is down :(
+
+    :return:
+    """
+    pass
+
+
 def main():
     pw, url = getData()
     # print(pw)
