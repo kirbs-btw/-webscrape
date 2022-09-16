@@ -10,13 +10,29 @@ def getData():
 
     return pw, url
 
-def getTableData():
+def getTableData(browser):
     """
     can't get it to work now the website where i'm
     trying to scrape is down :(
 
     :return:
     """
+
+    # f = '//*[@id="DATA"]/tbody/tr[12]'
+    xPath = '//*[@id="DATA"]/tbody/tr[14]/td[4]'
+    # xPathTwo = '//*[@id="DATA"]/tbody/tr[19]/td[4]'
+
+    for i in range(200):
+        try:
+            xPath = f'//*[@id="DATA"]/tbody/tr[{i + 1}]/td[3]'
+            descriptionPath = f'//*[@id="DATA"]/tbody/tr[{i + 1}]/td[4]'
+            fach = browser.find_element(By.XPATH, xPath).get_attribute("textContent")
+            description = browser.find_element(By.XPATH, descriptionPath).get_attribute("textContent")
+
+            print([fach, description])
+        except:
+            pass
+
     pass
 
 
@@ -36,6 +52,8 @@ def main():
 
     xPath = '//*[@id="MenuL"]/table/tbody/tr[2]/td/a'
     browser.find_element(By.XPATH, xPath).click()
+
+    getTableData(browser)
 
     close = input("ENTER:")
 
