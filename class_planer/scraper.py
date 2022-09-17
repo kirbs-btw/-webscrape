@@ -2,6 +2,15 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 
+class data():
+    def __init__(self):
+        self.data = []
+
+    def print(self):
+        for i in self.data:
+            print(i)
+
+
 def getData():
     pwFile = open("pw.txt")
     urlFile = open("link.txt")
@@ -24,17 +33,30 @@ def getTableData(browser):
 
     for i in range(200):
         try:
-            xPath = f'//*[@id="DATA"]/tbody/tr[{i + 1}]/td[3]'
-            descriptionPath = f'//*[@id="DATA"]/tbody/tr[{i + 1}]/td[4]'
-            fach = browser.find_element(By.XPATH, xPath).get_attribute("textContent")
-            description = browser.find_element(By.XPATH, descriptionPath).get_attribute("textContent")
+            xPath = f'//*[@id="DATA"]/tbody/tr[{i + 1}]/th'
+            schoolClass = browser.find_element(By.XPATH, xPath).get_attribute("textContent")
+            if schoolClass != "":
+                data.data.append([schoolClass])
 
-            print([fach, description])
         except:
             pass
 
-    pass
+        try:
+            xPath = f'//*[@id="DATA"]/tbody/tr[{i + 1}]/td[3]'
+            descriptionPath = f'//*[@id="DATA"]/tbody/tr[{i + 1}]/td[4]'
+            lessonPath = f'//*[@id="DATA"]/tbody/tr[{i + 1}]/td[1]'
+            fach = browser.find_element(By.XPATH, xPath).get_attribute("textContent")
+            description = browser.find_element(By.XPATH, descriptionPath).get_attribute("textContent")
+            lesson = browser.find_element(By.XPATH, lessonPath).get_attribute("textContent")
+            # print(description.lower())
 
+            if fach != "" or description != "":
+                data.data.append([lesson, fach, description])
+
+        except:
+            pass
+
+        data.print()
 
 def main():
     pw, url = getData()
@@ -50,7 +72,8 @@ def main():
         inputElement.send_keys(i)
     inputElement.send_keys(Keys.ENTER)
 
-    xPath = '//*[@id="MenuL"]/table/tbody/tr[2]/td/a'
+    # xPath = '//*[@id="MenuL"]/table/tbody/tr[2]/td/a'
+    xPath = '//*[@id="MenuL"]/table/tbody/tr[3]/td/a'
     browser.find_element(By.XPATH, xPath).click()
 
     getTableData(browser)
@@ -59,4 +82,5 @@ def main():
 
 
 if __name__ == '__main__':
+    data = data()
     main()
