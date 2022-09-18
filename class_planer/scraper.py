@@ -5,11 +5,34 @@ from selenium.webdriver.common.keys import Keys
 class data():
     def __init__(self):
         self.data = []
+        self.levelSave = ""
+        self.classSave = []
 
     def print(self):
         for i in self.data:
             print(i)
 
+    def saveDataSet(self):
+        set = []
+        set.append(self.levelSave)
+        for i in self.classSave:
+            set.append(i)
+        self.levelSave = ""
+        self.classSave = []
+        self.data.append(set)
+
+
+
+
+
+"""
+    [
+        [Sk2]
+        [SK2, 23, 31],
+        [2, 31, 31],
+        [31, 21, 2],
+    ]
+"""
 
 def getData():
     pwFile = open("pw.txt")
@@ -18,6 +41,8 @@ def getData():
     url = urlFile.readlines()[0]
 
     return pw, url
+
+
 
 def getTableData(browser):
     """
@@ -36,8 +61,8 @@ def getTableData(browser):
             xPath = f'//*[@id="DATA"]/tbody/tr[{i + 1}]/th'
             schoolClass = browser.find_element(By.XPATH, xPath).get_attribute("textContent")
             if schoolClass != "":
-                data.data.append([schoolClass])
-
+                data.saveDataSet()
+                data.levelSave = schoolClass
         except:
             pass
 
@@ -51,12 +76,15 @@ def getTableData(browser):
             # print(description.lower())
 
             if fach != "" or description != "":
-                data.data.append([lesson, fach, description])
+                data.classSave.append([lesson, fach, description])
 
         except:
             pass
 
-        data.print()
+    # 
+    data.saveDataSet()
+
+    data.print()
 
 def main():
     pw, url = getData()
