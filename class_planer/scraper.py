@@ -15,11 +15,15 @@ class data():
     def saveDataSet(self):
         set = []
         set.append(self.levelSave)
+        self.classSave.remove(['\n\t\t\t\n\t\t', 'FACH', 'RAUM'])
+
         for i in self.classSave:
             set.append(i)
         self.levelSave = ""
         self.classSave = []
         self.data.append(set)
+
+
 
 
 
@@ -81,9 +85,7 @@ def getTableData(browser):
         except:
             pass
 
-    # 
     data.saveDataSet()
-
     data.print()
 
 def main():
