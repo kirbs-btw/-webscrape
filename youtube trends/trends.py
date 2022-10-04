@@ -2,7 +2,20 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 
+def getVideo(titlePath, creatorPath, browser):
+    title = browser.find_element(By.XPATH, titlePath).get_attribute("textContent")
+    creator = browser.find_element(By.XPATH, creatorPath).get_attribute("textContent")
+    return [title, creator]
+
+
 def main():
+    """
+    return top 3
+    videos on the youtube trends
+    :return:
+    """
+
+
     vids = []
 
     url = "https://www.youtube.com/feed/trending"
@@ -13,14 +26,24 @@ def main():
 
 
     for i in range(3):
-        xPath = f'/html/body/ytd-app/div[1]/ytd-page-manager/ytd-browse/ytd-two-column-browse-results-renderer/div[1]/ytd-section-list-renderer/div[2]/ytd-item-section-renderer[1]/div[3]/ytd-shelf-renderer/div[1]/div[2]/ytd-expanded-shelf-contents-renderer/div/ytd-video-renderer[{i+1}]/div[1]/div/div[1]/div/h3/a/yt-formatted-string'
-        title = browser.find_element(By.XPATH, xPath).get_attribute("textContent")
+        try:
+            titlePath = f'/html/body/ytd-app/div[1]/ytd-page-manager/ytd-browse/ytd-two-column-browse-results-renderer/div[1]/ytd-section-list-renderer/div[2]/ytd-item-section-renderer[1]/div[3]/ytd-shelf-renderer/div[1]/div[2]/ytd-expanded-shelf-contents-renderer/div/ytd-video-renderer[{i+1}]/div[1]/div/div[1]/div/h3/a/yt-formatted-string'
+            creatorPath = f'/html/body/ytd-app/div[1]/ytd-page-manager/ytd-browse/ytd-two-column-browse-results-renderer/div[1]/ytd-section-list-renderer/div[2]/ytd-item-section-renderer[1]/div[3]/ytd-shelf-renderer/div[1]/div[2]/ytd-expanded-shelf-contents-renderer/div/ytd-video-renderer[{i+1}]/div[1]/div/div[1]/ytd-video-meta-block/div[1]/div[1]/ytd-channel-name/div/div/yt-formatted-string/a'
 
-        xPath = f'/html/body/ytd-app/div[1]/ytd-page-manager/ytd-browse/ytd-two-column-browse-results-renderer/div[1]/ytd-section-list-renderer/div[2]/ytd-item-section-renderer[1]/div[3]/ytd-shelf-renderer/div[1]/div[2]/ytd-expanded-shelf-contents-renderer/div/ytd-video-renderer[{i+1}]/div[1]/div/div[1]/ytd-video-meta-block/div[1]/div[1]/ytd-channel-name/div/div/yt-formatted-string/a'
-        creator = browser.find_element(By.XPATH, xPath).get_attribute("textContent")
+            vids.append(getVideo(titlePath, creatorPath, browser))
 
-        vids.append([title, creator])
+        except:
+            pass
 
+    for i in range(50):
+        try:
+            titlePath = f'/html/body/ytd-app/div[1]/ytd-page-manager/ytd-browse/ytd-two-column-browse-results-renderer/div[1]/ytd-section-list-renderer/div[2]/ytd-item-section-renderer[3]/div[3]/ytd-shelf-renderer/div[1]/div[2]/ytd-expanded-shelf-contents-renderer/div/ytd-video-renderer[{i + 1}]/div[1]/div/div[1]/div/h3/a/yt-formatted-string'
+            creatorPath = f'/html/body/ytd-app/div[1]/ytd-page-manager/ytd-browse/ytd-two-column-browse-results-renderer/div[1]/ytd-section-list-renderer/div[2]/ytd-item-section-renderer[3]/div[3]/ytd-shelf-renderer/div[1]/div[2]/ytd-expanded-shelf-contents-renderer/div/ytd-video-renderer[{i + 1}]/div[1]/div/div[1]/ytd-video-meta-block/div[1]/div[1]/ytd-channel-name/div/div/yt-formatted-string/a'
+
+            vids.append(getVideo(titlePath, creatorPath, browser))
+
+        except:
+            pass
 
     print(vids)
 
